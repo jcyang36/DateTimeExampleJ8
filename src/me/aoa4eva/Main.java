@@ -1,6 +1,6 @@
 package me.aoa4eva;
 
-import javax.swing.text.DateFormatter;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -21,12 +21,14 @@ public class Main {
         DateTimeFormatter dTF = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         DateTimeFormatter shortMonthFormat = DateTimeFormatter.ofPattern("dd MMM yyyy");
         DateTimeFormatter longFormat = DateTimeFormatter.ofPattern("dd MMMM yyyy");
-
+        DateTimeFormatter newFormat = DateTimeFormatter.ofPattern("MMM dd YYYY");
         //Time formatter (time only)
         DateTimeFormatter hr24 = DateTimeFormatter.ofPattern("kk:m");
 
         //Output today's date in formats that have been preset
-        System.out.println("The current date is: "+rightNow.format(longFormat));
+
+        System.out.println("The current date is: "+rightNow.format(shortMonthFormat));
+
         System.out.println("This is the current date and time unformatted: "+rightNow);
 
         //Output the current time in formats that have been preset
@@ -39,19 +41,26 @@ public class Main {
             try{
                 userDate = LocalDate.parse(keyboard.nextLine(),dTF);
 
+                if(userDate.isAfter(LocalDate.now())&&userDate!=null) {
+                    System.out.println("The date must be in the past");
+
+                }
+
             }catch(Exception e)
             {
-                if(userDate.isAfter(LocalDate.now())&&userDate!=null)
-                    System.out.println("The date must be in the past");
+
 
                    System.out.println("Unable to convert the string you entered to date. Please try again!");
 
             }
 
-        }while(userDate==null);
+        }while(userDate==null || userDate.isAfter(LocalDate.now()));
 
         //Display the date entered
-       System.out.println(userDate.format(shortMonthFormat));
+       System.out.println("Date format dd MMM yyyy: "+userDate.format(shortMonthFormat));
+        System.out.println("Date format MMM dd yyyy: "+userDate.format(newFormat));
+        System.out.println("Date format dd/mm/yyyy: "+userDate.format(dTF));
+
 
     }
 }
